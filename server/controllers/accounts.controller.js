@@ -7,6 +7,9 @@ function facebookLikesCount() {
   access_token =
     'EAAIRixXmsaEBAHZAzNHUh2cGVBWImzzYPqMNJRSndLVJmM6ZBo8XQkTZBd8OovojxVpHjOS61N0P7AZA61i55z85hwFq6RelcdJ1IrWHJBiEjchDhplKjbHTsMaKZCi1k4LNPO3l4oZBTZA6mkrIfE43moZBVEMoc1U9uZCVZAwKQbHQZDZD';
   //Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
+  page_access_token_lifetime =
+    'EAAIRixXmsaEBAIUFh1hOUscuNIYHlMp23SOZCgpTjVTbvDnRLiZCJZAcHcuaO8xN0HsP06yTR2mnhan2sYEHjBGuvGb06RnZCDrbMi4FJmXZCIOmrVBk4SjckBSMFMptSL1K8ZCD9vdX1O3Ppi4UcyXOIuDFAEQgl5NA3ZB22db5QZDZD';
+
   var url =
     'https://graph.facebook.com/' +
     pageId +
@@ -14,13 +17,17 @@ function facebookLikesCount() {
     access_token +
     '';
 
-  var url2 =
-    'https://graph.facebook.com/1197657160409500?fields=name,fan_count&access_token=EAAIRixXmsaEBAIkiYP9p3SWHbBDZA3G1coBDwfdpDIZAmTg89KeUUDBgApcc8hjIDDKL2ZCDs6vm9qNEAxbWUct6cpAU7p0F9NfZCSv8oc4nrsLlVpD6ynTDwQEAylZC9W72T2xr0OlFTZAPRUTLF2f6rXZCNYqqCOIQ7HgdBZBBZAcMRP0qvG6S3UOpdXLg2qCz8pCPvPZAnSrwZDZD';
+  var url_page_access =
+    'https://graph.facebook.com/' +
+    pageId +
+    '?fields=name,fan_count&access_token=' +
+    page_access_token_lifetime +
+    '';
 
   //Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
   request(
     {
-      url: url,
+      url: url_page_access,
       json: true
     },
     function(error, response, body) {
