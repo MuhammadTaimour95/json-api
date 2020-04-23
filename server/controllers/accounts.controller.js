@@ -8,8 +8,10 @@ function facebookLikesCount() {
     'EAAIRixXmsaEBAHZAzNHUh2cGVBWImzzYPqMNJRSndLVJmM6ZBo8XQkTZBd8OovojxVpHjOS61N0P7AZA61i55z85hwFq6RelcdJ1IrWHJBiEjchDhplKjbHTsMaKZCi1k4LNPO3l4oZBTZA6mkrIfE43moZBVEMoc1U9uZCVZAwKQbHQZDZD';
   //Set Url of JSON data from the facebook graph api. make sure callback is set with a '?' to overcome the cross domain problems with JSON
   page_access_token_lifetime =
-    'EAAIRixXmsaEBAIUFh1hOUscuNIYHlMp23SOZCgpTjVTbvDnRLiZCJZAcHcuaO8xN0HsP06yTR2mnhan2sYEHjBGuvGb06RnZCDrbMi4FJmXZCIOmrVBk4SjckBSMFMptSL1K8ZCD9vdX1O3Ppi4UcyXOIuDFAEQgl5NA3ZB22db5QZDZD';
+    'EAAIRixXmsaEBADuEvkSZCKu5cdfZCKOUsx6QcEvfQP0q1QSYynqkx7OJk8MhSsDflOLfZCNyxpp0ZAW33LGnZC1cXxihqRVOZBdx7F4gtoBFpHVQST6EYm35MYjigzIqKegyOMNvxIZAVPZBIZCeizIRracILLrZB5YsqaXDgHgSw1rERXQsHMH3T9';
 
+  long_term_access_token =
+    'EAAReNQQHbyYBAMy0VDPIdD7qVodXivnoNCyvD2H3szfNYlZBBNP7Mwo6SZAouZBRTHd2gOEFUcjYhK9Tg9g2dIVnSa25c6ppz9fCLaYC8aqh5GiXVznNnn5KYcgxZBT65irJ27vIxjPh5UVFYaGUCcxZB4suDlO5ZBMZClbbLJkpju6PZCkneNMR';
   var url =
     'https://graph.facebook.com/' +
     pageId +
@@ -21,16 +23,19 @@ function facebookLikesCount() {
     'https://graph.facebook.com/' +
     pageId +
     '?fields=name,fan_count&access_token=' +
-    page_access_token_lifetime +
+    long_term_access_token +
     '';
+
+  var main_url =
+    'https://graph.facebook.com/1197657160409500?fields=name,fan_count&access_token=EAAReNQQHbyYBAMy0VDPIdD7qVodXivnoNCyvD2H3szfNYlZBBNP7Mwo6SZAouZBRTHd2gOEFUcjYhK9Tg9g2dIVnSa25c6ppz9fCLaYC8aqh5GiXVznNnn5KYcgxZBT65irJ27vIxjPh5UVFYaGUCcxZB4suDlO5ZBMZClbbLJkpju6PZCkneNMR';
 
   //Use jQuery getJSON method to fetch the data from the url and then create our unordered list with the relevant data.
   request(
     {
-      url: url_page_access,
-      json: true
+      url: main_url,
+      json: true,
     },
-    function(error, response, body) {
+    function (error, response, body) {
       if (!error && response.statusCode === 200) {
         count = body.fan_count;
         console.log(body);
@@ -40,12 +45,12 @@ function facebookLikesCount() {
   );
 }
 
-var myCallback = function(data) {
+var myCallback = function (data) {
   facebookLikesCount();
   console.log('got data: ' + data);
 };
 
-var usingItNow = function(callback) {
+var usingItNow = function (callback) {
   callback('get it?');
   console.log('conteoller ' + count);
   globalres.send(accountsService.get(globalreq.params._id, count));
@@ -53,7 +58,7 @@ var usingItNow = function(callback) {
 
 var globalreq;
 var globalres;
-const get = function(req, res) {
+const get = function (req, res) {
   globalreq = req;
   globalres = res;
   usingItNow(myCallback);
@@ -61,11 +66,11 @@ const get = function(req, res) {
   //res.send(accountsService.get(req.params._id, count));
 };
 
-const getAll = function(req, res) {
+const getAll = function (req, res) {
   res.send(accountsService.getAll());
 };
 
 module.exports = {
   get,
-  getAll
+  getAll,
 };
